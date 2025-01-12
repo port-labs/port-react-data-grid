@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 
 import type { CalculatedColumn, CalculatedColumnOrColumnGroup, Maybe } from '../types';
-import { cellClassname, cellFrozenClassname } from '../style/cell';
+import { cellClassname, cellFrozenClassname, cellRightFrozenClassname } from '../style/cell';
 
 export function getRowStyle(rowIdx: number): CSSProperties {
   return { '--rdg-grid-row-start': rowIdx };
@@ -40,7 +40,8 @@ export function getCellStyle<R, SR>(
   return {
     gridColumnStart: index,
     gridColumnEnd: index + colSpan,
-    insetInlineStart: column.frozen ? `var(--rdg-frozen-left-${column.idx})` : undefined
+    insetInlineStart: column.frozen ? `var(--rdg-frozen-left-${column.idx})` : undefined,
+    insetInlineEnd: column.rightFrozen ? `var(--rdg-frozen-right-${column.idx})` : undefined,
   };
 }
 
@@ -73,7 +74,8 @@ export function getCellClassname<R, SR>(
   return classnames(
     cellClassname,
     {
-      [cellFrozenClassname]: column.frozen
+      [cellFrozenClassname]: column.frozen,
+      [cellRightFrozenClassname]: column.rightFrozen,
     },
     ...extraClasses
   );

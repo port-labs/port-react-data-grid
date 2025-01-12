@@ -363,7 +363,9 @@ export function DataGrid<R, SR = unknown, K extends Key = Key>(props: DataGridPr
     colOverscanEndIdx,
     templateColumns,
     layoutCssVars,
-    totalFrozenColumnWidth
+    totalFrozenColumnWidth,
+    rightFrozenColumnCount,
+    totalRightFrozenColumnWidth
   } = useCalculatedColumns({
     rawColumns,
     defaultColumnOptions,
@@ -460,7 +462,8 @@ export function DataGrid<R, SR = unknown, K extends Key = Key>(props: DataGridPr
     rowOverscanEndIdx,
     rows,
     topSummaryRows,
-    bottomSummaryRows
+    bottomSummaryRows,
+    rightFrozenColumnCount
   });
 
   const { gridTemplateColumns, handleColumnResize } = useColumnWidths(

@@ -214,7 +214,8 @@ function getColumns(
     },
     {
       key: 'account',
-      name: 'Account'
+      name: 'Account',
+      rightFrozen: true,
     },
     {
       key: 'version',
@@ -224,6 +225,7 @@ function getColumns(
     {
       key: 'available',
       name: 'Available',
+      rightFrozen: true,
       renderCell({ row, onRowChange, tabIndex }) {
         return (
           <SelectCellFormatter
