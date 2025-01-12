@@ -324,7 +324,9 @@ function DataGrid<R, SR, K extends Key>(
     colOverscanEndIdx,
     templateColumns,
     layoutCssVars,
-    totalFrozenColumnWidth
+    totalFrozenColumnWidth,
+    rightFrozenColumnCount,
+    totalRightFrozenColumnWidth
   } = useCalculatedColumns({
     rawColumns,
     defaultColumnOptions,
@@ -424,7 +426,8 @@ function DataGrid<R, SR, K extends Key>(
     rowOverscanEndIdx,
     rows,
     topSummaryRows,
-    bottomSummaryRows
+    bottomSummaryRows,
+    rightFrozenColumnCount
   });
 
   const { gridTemplateColumns, handleColumnResize } = useColumnWidths(
