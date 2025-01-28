@@ -1081,7 +1081,6 @@ function DataGrid<R, SR, K extends Key>(
 
   const isGroupRowFocused =
     selectedPosition.idx === -1 && selectedPosition.rowIdx !== minRowIdx - 1;
-
   return (
     // biome-ignore lint/a11y/useValidAriaProps: aria-description is a valid prop
     <div
@@ -1108,6 +1107,9 @@ function DataGrid<R, SR, K extends Key>(
             selectedPosition.idx > lastFrozenColumnIndex || scrollToPosition?.idx !== undefined
               ? `${totalFrozenColumnWidth}px`
               : undefined,
+          scrollPaddingInlineEnd: rightFrozenColumnCount < maxRowIdx || scrollToPosition?.idx !== undefined
+            ? `${totalRightFrozenColumnWidth}px`
+            : undefined,
           scrollPaddingBlock:
             isRowIdxWithinViewportBounds(selectedPosition.rowIdx) ||
             scrollToPosition?.rowIdx !== undefined

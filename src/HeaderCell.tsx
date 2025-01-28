@@ -39,7 +39,7 @@ export const resizeHandleClassname = css`
     
     &:hover {
       background: var(--rdg-selection-color);
-      padding: 5px 0;
+      padding: 4px 0;
     }
   }
 `;
