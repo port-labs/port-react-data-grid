@@ -145,10 +145,10 @@ export interface RenderHeaderCellProps<TRow, TSummaryRow = unknown> {
 
 export interface CellRendererProps<TRow, TSummaryRow>
   extends Pick<RenderRowProps<TRow, TSummaryRow>, 'row' | 'rowIdx' | 'selectCell'>,
-  Omit<
-    React.HTMLAttributes<HTMLDivElement>,
-    'children' | 'onClick' | 'onDoubleClick' | 'onContextMenu'
-  > {
+    Omit<
+      React.HTMLAttributes<HTMLDivElement>,
+      'children' | 'onClick' | 'onDoubleClick' | 'onContextMenu'
+    > {
   column: CalculatedColumn<TRow, TSummaryRow>;
   colSpan: number | undefined;
   isCopied: boolean;
@@ -205,10 +205,10 @@ export interface CellSelectArgs<TRow, TSummaryRow = unknown> {
 
 export interface BaseRenderRowProps<TRow, TSummaryRow = unknown>
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'style' | 'children'>,
-  Pick<
-    DataGridProps<TRow, TSummaryRow>,
-    'onCellClick' | 'onCellDoubleClick' | 'onCellContextMenu'
-  > {
+    Pick<
+      DataGridProps<TRow, TSummaryRow>,
+      'onCellClick' | 'onCellDoubleClick' | 'onCellContextMenu'
+    > {
   viewportColumns: readonly CalculatedColumn<TRow, TSummaryRow>[];
   rowIdx: number;
   selectedCellIdx: number | undefined;
@@ -300,7 +300,7 @@ export interface RenderSortPriorityProps {
   priority: number | undefined;
 }
 
-export interface RenderSortStatusProps extends RenderSortIconProps, RenderSortPriorityProps { }
+export interface RenderSortStatusProps extends RenderSortIconProps, RenderSortPriorityProps {}
 
 export interface RenderCheckboxProps
   extends Pick<

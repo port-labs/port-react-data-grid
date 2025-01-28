@@ -46,7 +46,6 @@ export const cellFrozen = css`
 
 export const cellFrozenClassname = `rdg-cell-frozen ${cellFrozen}`;
 
-
 export const cellRightFrozen = css`
   @layer rdg.Cell {
     position: sticky;

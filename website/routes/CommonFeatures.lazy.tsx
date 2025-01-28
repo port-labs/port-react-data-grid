@@ -215,12 +215,12 @@ function getColumns(
     {
       key: 'account',
       name: 'Account',
-      rightFrozen: true,
+      rightFrozen: true
     },
     {
       key: 'version',
       name: 'Version',
-      renderEditCell: textEditor,
+      renderEditCell: textEditor
     },
     {
       key: 'available',

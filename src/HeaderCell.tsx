@@ -36,7 +36,7 @@ export const resizeHandleClassname = css`
     inset-inline-end: 0;
     inset-block-end: 0;
     inline-size: 4px;
-    
+
     &:hover {
       background: var(--rdg-selection-color);
       padding: 4px 0;

@@ -1107,9 +1107,10 @@ function DataGrid<R, SR, K extends Key>(
             selectedPosition.idx > lastFrozenColumnIndex || scrollToPosition?.idx !== undefined
               ? `${totalFrozenColumnWidth}px`
               : undefined,
-          scrollPaddingInlineEnd: rightFrozenColumnCount < maxRowIdx || scrollToPosition?.idx !== undefined
-            ? `${totalRightFrozenColumnWidth}px`
-            : undefined,
+          scrollPaddingInlineEnd:
+            rightFrozenColumnCount < maxRowIdx || scrollToPosition?.idx !== undefined
+              ? `${totalRightFrozenColumnWidth}px`
+              : undefined,
           scrollPaddingBlock:
             isRowIdxWithinViewportBounds(selectedPosition.rowIdx) ||
             scrollToPosition?.rowIdx !== undefined
