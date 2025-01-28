@@ -118,5 +118,5 @@ export function useViewportColumns<R, SR>({
     }
 
     return viewportColumns;
-  }, [startIdx, colOverscanEndIdx, columns]);
+  }, [startIdx, colOverscanEndIdx, columns, rightFrozenColumnCount]);
 }

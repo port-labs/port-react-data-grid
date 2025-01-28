@@ -304,7 +304,8 @@ export function useCalculatedColumns<R, SR>({
     totalFrozenColumnWidth,
     totalRightFrozenColumnWidth,
     viewportWidth,
-    enableVirtualization
+    enableVirtualization,
+    rightFrozenColumnCount
   ]);
 
   return {
