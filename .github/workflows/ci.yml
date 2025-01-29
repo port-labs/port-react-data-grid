@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - port-changes
-  pull_request:
 
 jobs:
   test:
@@ -54,6 +53,9 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/port-changes' }}
+    strategy:
+      matrix:
+        react: [18] # Ensures publishing only runs for React 18
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
