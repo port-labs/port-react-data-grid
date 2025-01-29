@@ -1,8 +1,9 @@
-name: CI and Publish to GitHub Packages
+name: CI
 on:
   push:
     branches:
       - port-changes
+  pull_request:
 
 jobs:
   test:
@@ -22,15 +23,17 @@ jobs:
         run: |
           node ./.github/workflows/patch-react19.js
           cat package.json
-      - name: Install dependencies
-        run: npm install
+      - name: npm install (with legacy-peer-deps)
+        run: npm i --legacy-peer-deps
       - name: Biome
         run: node --run biome:ci
+      - name: Typecheck
+        run: node --run typecheck
       - name: ESLint
         run: node --run eslint
       - name: Prettier
         run: node --run prettier:check
-      - name: Build package
+      - name: Bundle
         run: |
           node --run build
           node --run build:types
@@ -38,37 +41,36 @@ jobs:
         run: node --run build:website
       - name: Install Playwright Browsers
         run: npx playwright install chromium
-      - name: Run Tests
+      - name: Test
         run: node --run test
         timeout-minutes: 4
-      - name: Upload Coverage
+      - name: Upload coverage
         if: matrix.react == 18
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
   publish:
-    needs: test # Only run if tests pass
-    if: github.ref == 'refs/heads/port-changes' # Only run on port-changes
+    needs: test
     runs-on: ubuntu-latest
-
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/port-changes' }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 23
-          registry-url: 'https://npm.pkg.github.com'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build the package
-        run: npm run build
-
+          registry-url: https://npm.pkg.github.com/
+      - name: Set up .npmrc
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=\${NODE_AUTH_TOKEN}" > ~/.npmrc
+          echo "@OWNER:registry=https://npm.pkg.github.com/" >> ~/.npmrc
+          echo "always-auth=true" >> ~/.npmrc
+          cat ~/.npmrc
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: npm install (with legacy-peer-deps)
+        run: npm i --legacy-peer-deps
       - name: Publish to GitHub Packages
         run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
