@@ -1,8 +1,8 @@
 {
-  "name": "port-custom-react-data-grid",
-  "version": "7.0.0-beta.47",
+  "name": "@port-labs/port-react-data-grid",
+  "version": "7.0.0-port.1",
+  "description": "Forked version of react-data-grid with custom changes by Port Labs",
   "license": "MIT",
-  "description": "Feature-rich and customizable data grid React component",
   "keywords": [
     "react",
     "data grid"
