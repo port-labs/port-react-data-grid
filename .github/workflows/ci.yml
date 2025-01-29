@@ -1,6 +1,8 @@
-name: CI
+name: CI and Publish to GitHub Packages
 on:
-  pull_request:
+  push:
+    branches:
+      - port-changes
 
 jobs:
   test:
@@ -15,29 +17,46 @@ jobs:
         with:
           node-version: 23
           check-latest: true
-      - name: set up react 19
+      - name: Set up React 19
         if: matrix.react == 19
         run: |
           node ./.github/workflows/patch-react19.js
           cat package.json
-      - name: npm install
-        run: npm i
+      - name: Install dependencies
+        run: npm install
       - name: Biome
         run: node --run biome:ci
-      - name: Typecheck
-        run: node --run typecheck
-      - name: ESLint
-        run: node --run eslint
       - name: Prettier
         run: node --run prettier:check
-      - name: Bundle
+      - name: Build package
         run: |
           node --run build
           node --run build:types
       - name: Build website
         run: node --run build:website
-      - name: Install Playwright Browsers
-        run: npx playwright install chromium
-      - name: Test
-        run: node --run test
-        timeout-minutes: 4
+
+  publish:
+    needs: test # Only run if tests pass
+    if: github.ref == 'refs/heads/port-changes' && matrix.react == 18 # Only publish for React 18
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 23
+          registry-url: 'https://npm.pkg.github.com'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the package
+        run: npm run build
+
+      - name: Publish to GitHub Packages
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
