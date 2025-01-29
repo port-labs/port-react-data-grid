@@ -1,4 +1,4 @@
-name: CI and Publish
+name: CI and Publish to GitHub Packages
 on:
   push:
     branches:
