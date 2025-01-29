@@ -2,9 +2,7 @@ name: CI and Publish to GitHub Packages
 on:
   push:
     branches:
-      - main
       - port-changes
-  pull_request:
 
 jobs:
   test:
@@ -29,7 +27,7 @@ jobs:
       - name: Biome
         run: node --run biome:ci
       - name: Typecheck
-        run: node --run typecheck
+        run: npm run typecheck
       - name: ESLint
         run: node --run eslint
       - name: Prettier
