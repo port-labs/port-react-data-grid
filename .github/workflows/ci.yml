@@ -1,8 +1,6 @@
 name: CI
 on:
-  push:
-    branches:
-      - port-changes
+  pull_request:
 
 jobs:
   test:
@@ -17,13 +15,13 @@ jobs:
         with:
           node-version: 23
           check-latest: true
-      - name: Set up React 19
+      - name: set up react 19
         if: matrix.react == 19
         run: |
           node ./.github/workflows/patch-react19.js
           cat package.json
-      - name: npm install (with legacy-peer-deps)
-        run: npm i --legacy-peer-deps
+      - name: npm install
+        run: npm i
       - name: Biome
         run: node --run biome:ci
       - name: Typecheck
@@ -43,36 +41,3 @@ jobs:
       - name: Test
         run: node --run test
         timeout-minutes: 4
-      - name: Upload coverage
-        if: matrix.react == 18
-        uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-
-  publish:
-    needs: test
-    runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/port-changes' }}
-    strategy:
-      matrix:
-        react: [18] # Ensures publishing only runs for React 18
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 23
-          registry-url: https://npm.pkg.github.com/
-      - name: Set up .npmrc
-        run: |
-          echo "//npm.pkg.github.com/:_authToken=\${NODE_AUTH_TOKEN}" > ~/.npmrc
-          echo "@OWNER:registry=https://npm.pkg.github.com/" >> ~/.npmrc
-          echo "always-auth=true" >> ~/.npmrc
-          cat ~/.npmrc
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: npm install (with legacy-peer-deps)
-        run: npm i --legacy-peer-deps
-      - name: Publish to GitHub Packages
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
