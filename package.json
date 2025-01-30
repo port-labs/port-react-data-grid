@@ -1,6 +1,6 @@
 {
   "name": "@port-labs/port-react-data-grid",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Forked version of @adazzle/react-data-grid with custom changes by Port Labs",
   "license": "MIT",
   "keywords": [

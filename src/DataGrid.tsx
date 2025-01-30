@@ -479,7 +479,10 @@ function DataGrid<R, SR, K extends Key>(
     const cell = getCellToScroll(gridRef.current!);
     if (cell === null) return;
 
-    scrollIntoView(cell);
+    const isFrozen = cell.classList.contains('rdg-cell-frozen');
+    if(!isFrozen) {
+      scrollIntoView(cell);
+    }
     // Focus cell content when available instead of the cell itself
     const elementToFocus = cell.querySelector<Element & HTMLOrSVGElement>('[tabindex="0"]') ?? cell;
     elementToFocus.focus({ preventScroll: true });
