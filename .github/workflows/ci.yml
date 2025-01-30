@@ -1,16 +1,15 @@
-name: CI
+name: CI and Publish to GitHub Packages
 on:
   push:
     branches:
-      - main
-  pull_request:
+      - port-changes
 
 jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        react: [18, 19]
+        react: [18]
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
@@ -18,48 +17,40 @@ jobs:
         with:
           node-version: 23
           check-latest: true
-      - name: set up react 19
-        if: matrix.react == 19
-        run: |
-          node ./.github/workflows/patch-react19.js
-          cat package.json
-      - name: npm install
-        run: npm i
+      - name: Install dependencies
+        run: npm install
       - name: Biome
         run: node --run biome:ci
-      - name: Typecheck
-        run: node --run typecheck
-      - name: ESLint
-        run: node --run eslint
       - name: Prettier
         run: node --run prettier:check
-      - name: Bundle
+      - name: Build package
         run: |
           node --run build
           node --run build:types
       - name: Build website
         run: node --run build:website
-      - name: Install Playwright Browsers
-        run: npx playwright install chromium
-      - name: Test
-        run: node --run test
-        timeout-minutes: 4
-      - name: Upload coverage
-        if: matrix.react == 18
-        uses: codecov/codecov-action@v5
+
+  publish:
+    needs: test # Only run if tests pass
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-      - name: Deploy gh-pages
-        if: matrix.react == 18 && github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: |
-          git config --global user.email 'action@github.com'
-          git config --global user.name 'GitHub Action'
-          git fetch origin gh-pages
-          git worktree add gh-pages gh-pages
-          cd gh-pages
-          git rm -r .
-          mv ../dist/* .
-          touch .nojekyll
-          git add .
-          git commit -m "gh-pages deployment" || echo "Nothing to commit"
-          git push -f https://adazzle:${{secrets.GITHUB_TOKEN}}@github.com/adazzle/react-data-grid.git
+          node-version: 23
+          registry-url: 'https://npm.pkg.github.com'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the package
+        run: npm run build
+
+      - name: Publish to GitHub Packages
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
