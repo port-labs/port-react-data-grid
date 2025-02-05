@@ -1,17 +1,15 @@
 {
-  "name": "react-data-grid",
-  "version": "7.0.0-beta.47",
+  "name": "@port-labs/port-react-data-grid",
+  "version": "1.0.2",
+  "description": "Forked version of @adazzle/react-data-grid with custom changes by Port Labs",
   "license": "MIT",
-  "description": "Feature-rich and customizable data grid React component",
   "keywords": [
     "react",
     "data grid"
   ],
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/adazzle/react-data-grid.git"
+    "type": "git"
   },
-  "bugs": "https://github.com/adazzle/react-data-grid/issues",
   "type": "module",
   "exports": {
     "./lib/styles.css": "./lib/styles.css",
