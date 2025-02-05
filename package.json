@@ -1,6 +1,6 @@
 {
   "name": "@port-labs/port-react-data-grid",
-  "version": "1.0.3-beta",
+  "version": "1.0.2",
   "description": "Forked version of @adazzle/react-data-grid with custom changes by Port Labs",
   "license": "MIT",
   "keywords": [
@@ -8,11 +8,7 @@
     "data grid"
   ],
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/port-labs/port-react-data-grid.git"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
+    "type": "git"
   },
   "type": "module",
   "exports": {

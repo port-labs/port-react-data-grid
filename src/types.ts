@@ -22,10 +22,10 @@ export interface Column<TRow, TSummaryRow = unknown> {
   readonly cellClass?: Maybe<string | ((row: TRow) => Maybe<string>)>;
   readonly headerCellClass?: Maybe<string>;
   readonly summaryCellClass?: Maybe<string | ((row: TSummaryRow) => Maybe<string>)>;
-  /** Render function used to render the content of the column's header cell */
-  readonly renderHeaderCell?: Maybe<(props: RenderHeaderCellProps<TRow, TSummaryRow>) => ReactNode>;
   /** Render function used to render the content of cells */
   readonly renderCell?: Maybe<(props: RenderCellProps<TRow, TSummaryRow>) => ReactNode>;
+  /** Render function used to render the content of the column's header cell */
+  readonly renderHeaderCell?: Maybe<(props: RenderHeaderCellProps<TRow, TSummaryRow>) => ReactNode>;
   /** Render function used to render the content of summary cells */
   readonly renderSummaryCell?: Maybe<
     (props: RenderSummaryCellProps<TSummaryRow, TRow>) => ReactNode
@@ -145,10 +145,10 @@ export interface RenderHeaderCellProps<TRow, TSummaryRow = unknown> {
 
 export interface CellRendererProps<TRow, TSummaryRow>
   extends Pick<RenderRowProps<TRow, TSummaryRow>, 'row' | 'rowIdx' | 'selectCell'>,
-    Omit<
-      React.HTMLAttributes<HTMLDivElement>,
-      'children' | 'onClick' | 'onDoubleClick' | 'onContextMenu'
-    > {
+  Omit<
+    React.HTMLAttributes<HTMLDivElement>,
+    'children' | 'onClick' | 'onDoubleClick' | 'onContextMenu'
+  > {
   column: CalculatedColumn<TRow, TSummaryRow>;
   colSpan: number | undefined;
   isCopied: boolean;
@@ -205,10 +205,10 @@ export interface CellSelectArgs<TRow, TSummaryRow = unknown> {
 
 export interface BaseRenderRowProps<TRow, TSummaryRow = unknown>
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'style' | 'children'>,
-    Pick<
-      DataGridProps<TRow, TSummaryRow>,
-      'onCellClick' | 'onCellDoubleClick' | 'onCellContextMenu'
-    > {
+  Pick<
+    DataGridProps<TRow, TSummaryRow>,
+    'onCellClick' | 'onCellDoubleClick' | 'onCellContextMenu'
+  > {
   viewportColumns: readonly CalculatedColumn<TRow, TSummaryRow>[];
   rowIdx: number;
   selectedCellIdx: number | undefined;
@@ -300,7 +300,7 @@ export interface RenderSortPriorityProps {
   priority: number | undefined;
 }
 
-export interface RenderSortStatusProps extends RenderSortIconProps, RenderSortPriorityProps {}
+export interface RenderSortStatusProps extends RenderSortIconProps, RenderSortPriorityProps { }
 
 export interface RenderCheckboxProps
   extends Pick<
@@ -312,10 +312,10 @@ export interface RenderCheckboxProps
 }
 
 export interface Renderers<TRow, TSummaryRow> {
+  renderCell?: Maybe<(key: Key, props: CellRendererProps<TRow, TSummaryRow>) => ReactNode>;
   renderCheckbox?: Maybe<(props: RenderCheckboxProps) => ReactNode>;
   renderRow?: Maybe<(key: Key, props: RenderRowProps<TRow, TSummaryRow>) => ReactNode>;
   renderSortStatus?: Maybe<(props: RenderSortStatusProps) => ReactNode>;
-  renderCell?: Maybe<(key: Key, props: CellRendererProps<TRow, TSummaryRow>) => ReactNode>;
   noRowsFallback?: Maybe<ReactNode>;
 }
 
