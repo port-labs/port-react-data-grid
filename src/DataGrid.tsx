@@ -324,7 +324,9 @@ function DataGrid<R, SR, K extends Key>(
     colOverscanEndIdx,
     templateColumns,
     layoutCssVars,
-    totalFrozenColumnWidth
+    totalFrozenColumnWidth,
+    rightFrozenColumnCount,
+    totalRightFrozenColumnWidth
   } = useCalculatedColumns({
     rawColumns,
     defaultColumnOptions,
@@ -424,7 +426,8 @@ function DataGrid<R, SR, K extends Key>(
     rowOverscanEndIdx,
     rows,
     topSummaryRows,
-    bottomSummaryRows
+    bottomSummaryRows,
+    rightFrozenColumnCount
   });
 
   const { gridTemplateColumns, handleColumnResize } = useColumnWidths(
@@ -476,7 +479,10 @@ function DataGrid<R, SR, K extends Key>(
     const cell = getCellToScroll(gridRef.current!);
     if (cell === null) return;
 
-    scrollIntoView(cell);
+    const isFrozen = cell.classList.contains('rdg-cell-frozen');
+    if(!isFrozen) {
+      scrollIntoView(cell);
+    }
     // Focus cell content when available instead of the cell itself
     const elementToFocus = cell.querySelector<Element & HTMLOrSVGElement>('[tabindex="0"]') ?? cell;
     elementToFocus.focus({ preventScroll: true });
@@ -1078,7 +1084,6 @@ function DataGrid<R, SR, K extends Key>(
 
   const isGroupRowFocused =
     selectedPosition.idx === -1 && selectedPosition.rowIdx !== minRowIdx - 1;
-
   return (
     // biome-ignore lint/a11y/useValidAriaProps: aria-description is a valid prop
     <div
@@ -1104,6 +1109,10 @@ function DataGrid<R, SR, K extends Key>(
           scrollPaddingInlineStart:
             selectedPosition.idx > lastFrozenColumnIndex || scrollToPosition?.idx !== undefined
               ? `${totalFrozenColumnWidth}px`
+              : undefined,
+          scrollPaddingInlineEnd:
+            rightFrozenColumnCount < maxRowIdx || scrollToPosition?.idx !== undefined
+              ? `${totalRightFrozenColumnWidth}px`
               : undefined,
           scrollPaddingBlock:
             isRowIdxWithinViewportBounds(selectedPosition.rowIdx) ||

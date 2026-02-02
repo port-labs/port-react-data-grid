@@ -35,7 +35,12 @@ export const resizeHandleClassname = css`
     inset-block-start: 0;
     inset-inline-end: 0;
     inset-block-end: 0;
-    inline-size: 10px;
+    inline-size: 4px;
+
+    &:hover {
+      background: var(--rdg-selection-color);
+      padding: 4px 0;
+    }
   }
 `;
 
