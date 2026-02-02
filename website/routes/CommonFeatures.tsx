@@ -215,7 +215,7 @@ function getColumns(
     {
       key: 'account',
       name: 'Account',
-      rightFrozen: true,
+      rightFrozen: true
     },
     {
       key: 'version',

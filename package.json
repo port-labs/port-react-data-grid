@@ -1,18 +1,15 @@
 {
-  "name": "react-data-grid",
-  "version": "7.0.0-beta.59",
+  "name": "@port-labs/port-react-data-grid",
+  "version": "1.0.2",
   "license": "MIT",
-  "description": "Feature-rich and customizable data grid React component",
+  "description": "Forked version of @adazzle/react-data-grid with custom changes by Port Labs",
   "keywords": [
     "react",
     "data grid"
   ],
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Comcast/react-data-grid.git"
+    "type": "git"
   },
-  "homepage": "https://github.com/Comcast/react-data-grid#readme",
-  "bugs": "https://github.com/Comcast/react-data-grid/issues",
   "type": "module",
   "exports": {
     "./lib/styles.css": "./lib/styles.css",

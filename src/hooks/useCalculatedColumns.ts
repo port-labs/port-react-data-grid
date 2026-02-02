@@ -54,7 +54,13 @@ export function useCalculatedColumns<R, SR>({
   const defaultResizable = defaultColumnOptions?.resizable ?? false;
   const defaultDraggable = defaultColumnOptions?.draggable ?? false;
 
-  const { columns, colSpanColumns, lastFrozenColumnIndex, rightFrozenColumnCount, headerRowsCount } = useMemo((): {
+  const {
+    columns,
+    colSpanColumns,
+    lastFrozenColumnIndex,
+    rightFrozenColumnCount,
+    headerRowsCount
+  } = useMemo((): {
     readonly columns: readonly CalculatedColumn<R, SR>[];
     readonly colSpanColumns: readonly CalculatedColumn<R, SR>[];
     readonly lastFrozenColumnIndex: number;
@@ -124,30 +130,35 @@ export function useCalculatedColumns<R, SR>({
       }
     }
 
-    columns.sort(({ key: aKey, frozen: frozenA, rightFrozen: rightFrozenA }, { key: bKey, frozen: frozenB, rightFrozen: rightFrozenB }) => {
-      // Sort select column first:
-      if (aKey === SELECT_COLUMN_KEY) return -1;
-      if (bKey === SELECT_COLUMN_KEY) return 1;
+    columns.sort(
+      (
+        { key: aKey, frozen: frozenA, rightFrozen: rightFrozenA },
+        { key: bKey, frozen: frozenB, rightFrozen: rightFrozenB }
+      ) => {
+        // Sort select column first:
+        if (aKey === SELECT_COLUMN_KEY) return -1;
+        if (bKey === SELECT_COLUMN_KEY) return 1;
 
-      // Sort frozen columns second:
-      if (frozenA) {
-        if (frozenB) return 0;
-        return -1;
+        // Sort frozen columns second:
+        if (frozenA) {
+          if (frozenB) return 0;
+          return -1;
+        }
+        if (frozenB) return 1;
+
+        // Sort right frozen columns second:
+        if (rightFrozenA) {
+          if (rightFrozenB) return 0;
+          return 1;
+        }
+        if (rightFrozenB) return -1;
+
+        // TODO: sort columns to keep them grouped if they have a parent
+
+        // Sort other columns last:
+        return 0;
       }
-      if (frozenB) return 1;
-
-      // Sort right frozen columns second:
-      if (rightFrozenA) {
-        if (rightFrozenB) return 0;
-        return 1;
-      }
-      if (rightFrozenB) return -1;
-
-      // TODO: sort columns to keep them grouped if they have a parent
-
-      // Sort other columns last:
-      return 0;
-    });
+    );
 
     const colSpanColumns: CalculatedColumn<R, SR>[] = [];
     columns.forEach((column, idx) => {
@@ -178,7 +189,13 @@ export function useCalculatedColumns<R, SR>({
     defaultDraggable
   ]);
 
-  const { templateColumns, layoutCssVars, totalFrozenColumnWidth, totalRightFrozenColumnWidth, columnMetrics } = useMemo((): {
+  const {
+    templateColumns,
+    layoutCssVars,
+    totalFrozenColumnWidth,
+    totalRightFrozenColumnWidth,
+    columnMetrics
+  } = useMemo((): {
     templateColumns: readonly string[];
     layoutCssVars: Readonly<Record<string, string>>;
     totalFrozenColumnWidth: number;
@@ -224,14 +241,18 @@ export function useCalculatedColumns<R, SR>({
       }
     }
 
-
-
     for (let i = 0; i <= lastFrozenColumnIndex; i++) {
       const column = columns[i];
       layoutCssVars[`--rdg-frozen-left-${column.idx}`] = `${columnMetrics.get(column)!.left}px`;
     }
 
-    return { templateColumns, layoutCssVars, totalFrozenColumnWidth, totalRightFrozenColumnWidth, columnMetrics };
+    return {
+      templateColumns,
+      layoutCssVars,
+      totalFrozenColumnWidth,
+      totalRightFrozenColumnWidth,
+      columnMetrics
+    };
   }, [getColumnWidth, columns, lastFrozenColumnIndex, rightFrozenColumnCount]);
 
   const [colOverscanStartIdx, colOverscanEndIdx] = useMemo((): [number, number] => {
@@ -287,7 +308,8 @@ export function useCalculatedColumns<R, SR>({
     totalFrozenColumnWidth,
     totalRightFrozenColumnWidth,
     viewportWidth,
-    enableVirtualization
+    enableVirtualization,
+    rightFrozenColumnCount
   ]);
 
   return {

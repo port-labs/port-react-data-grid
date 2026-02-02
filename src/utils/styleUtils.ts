@@ -41,7 +41,7 @@ export function getCellStyle<R, SR>(
     gridColumnStart: index,
     gridColumnEnd: index + colSpan,
     insetInlineStart: column.frozen ? `var(--rdg-frozen-left-${column.idx})` : undefined,
-    insetInlineEnd: column.rightFrozen ? `var(--rdg-frozen-right-${column.idx})` : undefined,
+    insetInlineEnd: column.rightFrozen ? `var(--rdg-frozen-right-${column.idx})` : undefined
   };
 }
 
@@ -75,7 +75,7 @@ export function getCellClassname<R, SR>(
     cellClassname,
     {
       [cellFrozenClassname]: column.frozen,
-      [cellRightFrozenClassname]: column.rightFrozen,
+      [cellRightFrozenClassname]: column.rightFrozen
     },
     ...extraClasses
   );

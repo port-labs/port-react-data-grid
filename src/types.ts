@@ -322,7 +322,7 @@ export interface RenderSortPriorityProps {
   priority: number | undefined;
 }
 
-export interface RenderSortStatusProps extends RenderSortIconProps, RenderSortPriorityProps { }
+export interface RenderSortStatusProps extends RenderSortIconProps, RenderSortPriorityProps {}
 
 export interface RenderCheckboxProps extends Pick<
   React.ComponentProps<'input'>,
@@ -333,10 +333,10 @@ export interface RenderCheckboxProps extends Pick<
 }
 
 export interface Renderers<TRow, TSummaryRow> {
+  renderCell?: Maybe<(key: Key, props: CellRendererProps<TRow, TSummaryRow>) => ReactNode>;
   renderCheckbox?: Maybe<(props: RenderCheckboxProps) => ReactNode>;
   renderRow?: Maybe<(key: Key, props: RenderRowProps<TRow, TSummaryRow>) => ReactNode>;
   renderSortStatus?: Maybe<(props: RenderSortStatusProps) => ReactNode>;
-  renderCell?: Maybe<(key: Key, props: CellRendererProps<TRow, TSummaryRow>) => ReactNode>;
   noRowsFallback?: Maybe<ReactNode>;
 }
 
