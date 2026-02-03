@@ -17,6 +17,7 @@ const root = css`
     --rdg-selection-color: hsl(207, 75%, 66%);
     --rdg-font-size: 14px;
     --rdg-cell-frozen-box-shadow: 2px 0 5px -2px rgba(136, 136, 136, 0.3);
+     --rdg-cell-right-frozen-box-shadow: -2px 0 5px -2px rgba(136, 136, 136, 0.3);
     --rdg-border-width: 1px;
     --rdg-summary-border-width: calc(var(--rdg-border-width) * 2);
     --rdg-color: light-dark(#000, #ddd);
@@ -40,6 +41,7 @@ const root = css`
 
     &:dir(rtl) {
       --rdg-cell-frozen-box-shadow: -2px 0 5px -2px rgba(136, 136, 136, 0.3);
+      --rdg-cell-right-frozen-box-shadow: 2px 0 5px -2px rgba(136, 136, 136, 0.3);
     }
 
     display: grid;

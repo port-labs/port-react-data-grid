@@ -13,10 +13,7 @@ export interface Column<TRow, TSummaryRow = unknown> {
   readonly name: string | ReactElement;
   /** A unique key to distinguish each column */
   readonly key: string;
-  /**
-   * Column width. If not specified, it will be determined automatically based on grid width and specified widths of other columns
-   * @default 'auto'
-   */
+  /** Column width. If not specified, it will be determined automatically based on grid width and specified widths of other columns */
   readonly width?: Maybe<number | string>;
   /**
    * Minimum column width in pixels
@@ -48,6 +45,8 @@ export interface Column<TRow, TSummaryRow = unknown> {
   readonly colSpan?: Maybe<(args: ColSpanArgs<TRow, TSummaryRow>) => Maybe<number>>;
   /** Determines whether column is frozen */
   readonly frozen?: Maybe<boolean>;
+  /** Determines whether column is right frozen or not */
+  readonly rightFrozen?: Maybe<boolean>;
   /** Enable resizing of the column */
   readonly resizable?: Maybe<boolean>;
   /** Enable sorting of the column */
@@ -89,6 +88,7 @@ export interface CalculatedColumn<TRow, TSummaryRow = unknown> extends Column<TR
   readonly sortable: boolean;
   readonly draggable: boolean;
   readonly frozen: boolean;
+  readonly rightFrozen: boolean;
   readonly renderCell: (props: RenderCellProps<TRow, TSummaryRow>) => ReactNode;
   readonly renderHeaderCell: (props: RenderHeaderCellProps<TRow, TSummaryRow>) => ReactNode;
 }

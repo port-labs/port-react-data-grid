@@ -363,7 +363,9 @@ export function DataGrid<R, SR = unknown, K extends Key = Key>(props: DataGridPr
     colOverscanEndIdx,
     templateColumns,
     layoutCssVars,
-    totalFrozenColumnWidth
+    totalFrozenColumnWidth,
+    rightFrozenColumnCount,
+    totalRightFrozenColumnWidth
   } = useCalculatedColumns({
     rawColumns,
     defaultColumnOptions,
@@ -460,7 +462,8 @@ export function DataGrid<R, SR = unknown, K extends Key = Key>(props: DataGridPr
     rowOverscanEndIdx,
     rows,
     topSummaryRows,
-    bottomSummaryRows
+    bottomSummaryRows,
+    rightFrozenColumnCount
   });
 
   const { gridTemplateColumns, handleColumnResize } = useColumnWidths(
@@ -507,7 +510,9 @@ export function DataGrid<R, SR = unknown, K extends Key = Key>(props: DataGridPr
       const cell = getCellToScroll(gridRef.current!);
       if (cell === null) return;
 
-      if (shouldScroll) {
+      const isFrozen = cell.classList.contains('rdg-cell-frozen');
+
+      if (!isFrozen && shouldScroll) {
         scrollIntoView(cell);
       }
 
@@ -1179,7 +1184,6 @@ export function DataGrid<R, SR = unknown, K extends Key = Key>(props: DataGridPr
 
   const isGroupRowFocused =
     selectedPosition.idx === -1 && selectedPosition.rowIdx !== minRowIdx - 1;
-
   return (
     <div
       role={role}
@@ -1206,6 +1210,10 @@ export function DataGrid<R, SR = unknown, K extends Key = Key>(props: DataGridPr
         scrollPaddingInlineStart:
           selectedPosition.idx > lastFrozenColumnIndex || scrollToPosition?.idx !== undefined
             ? `${totalFrozenColumnWidth}px`
+            : undefined,
+        scrollPaddingInlineEnd:
+          rightFrozenColumnCount < maxRowIdx || scrollToPosition?.idx !== undefined
+            ? `${totalRightFrozenColumnWidth}px`
             : undefined,
         scrollPaddingBlock:
           isRowIdxWithinViewportBounds(selectedPosition.rowIdx) ||
